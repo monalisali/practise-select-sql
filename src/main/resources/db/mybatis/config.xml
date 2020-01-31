@@ -3,6 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <!--MyBaits中的配置内容是有顺序的，settings在environments前面-->
+    <settings>
+        <!--使用LOG4J日志库-->
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
@@ -15,7 +20,7 @@
         </environment>
     </environments>
     <mappers>
-<!--        <mapper resource="org/mybatis/example/BlogMapper.xml"/>-->
         <mapper class="com.github.hcsp.sql.Sql$UserMapper" />
     </mappers>
+
 </configuration>
