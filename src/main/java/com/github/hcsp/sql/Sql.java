@@ -13,7 +13,9 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Sql {
 // 用户表：
@@ -233,11 +235,19 @@ public class Sql {
         User u = new User();
         u.id = 3;
         //UserMapper中使用${},name设置为 u.name = "' or 1=1 --"; 就变成sql注入了，可以获取到所有用户信息
-        u.name = "' or 1=1 --";
+        u.name = "wangwu";
         try (SqlSession session = sqlSessionFactory.openSession()) {
             System.out.println("***********使用XML方式******************");
             System.out.println(session.selectList("com.hcsp.UserMapper.selectUser",u));
         }
+
+        Map<String,Object> param = new HashMap<>();
+        param.put("name","wangwu");
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            System.out.println("***********使用XML方式,HashMap传递参数******************");
+            System.out.println(session.selectList("com.hcsp.UserMapper.selectUser", param));
+        }
+
 
 //        File projectDir = new File(System.getProperty("basedir", System.getProperty("user.dir")));
 //        String jdbcUrl = "jdbc:h2:file:" + new File(projectDir, "target/test").getAbsolutePath();
