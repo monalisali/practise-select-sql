@@ -1,6 +1,14 @@
 
 package com.github.hcsp.sql;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -99,7 +107,8 @@ public class Sql {
 // +----+----------+------+----------+
 // | 1  | zhangsan | tel1 | beijing  |
 // +----+----------+------+----------+
-    public static List<User> getUsersByPageOrderedByIdDesc(Connection databaseConnection, int pageNum, int pageSize) throws SQLException {
+    public static List<User> getUsersByPageOrderedByIdDesc(Connection databaseConnection, int pageNum, int pageSize)  {
+
         return null;
     }
 
@@ -201,17 +210,35 @@ public class Sql {
         return null;
     }
 
+    interface UserMapper{
+        @Select("select * from user")
+        List<User> getUsers();
+    }
+
+
+
     // 注意，运行这个方法之前，请先运行mvn initialize把测试数据灌入数据库
-    public static void main(String[] args) throws SQLException {
-        File projectDir = new File(System.getProperty("basedir", System.getProperty("user.dir")));
-        String jdbcUrl = "jdbc:h2:file:" + new File(projectDir, "target/test").getAbsolutePath();
-        try (Connection connection = DriverManager.getConnection(jdbcUrl, "root", "Jxi1Oxc92qSj")) {
-            System.out.println(countUsersWhoHaveBoughtGoods(connection, 1));
-            System.out.println(getUsersByPageOrderedByIdDesc(connection, 2, 3));
-            System.out.println(getGoodsAndGmv(connection));
-            System.out.println(getInnerJoinOrders(connection));
-            System.out.println(getLeftJoinOrders(connection));
+    public static void main(String[] args) throws SQLException, IOException {
+        String resource = "db/mybatis/config.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory =
+                new SqlSessionFactoryBuilder().build(inputStream);
+
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+              UserMapper mapper = session.getMapper(UserMapper.class);
+            System.out.println(mapper.getUsers());
         }
+
+
+//        File projectDir = new File(System.getProperty("basedir", System.getProperty("user.dir")));
+//        String jdbcUrl = "jdbc:h2:file:" + new File(projectDir, "target/test").getAbsolutePath();
+//        try (Connection connection = DriverManager.getConnection(jdbcUrl, "root", "Jxi1Oxc92qSj")) {
+//            System.out.println(countUsersWhoHaveBoughtGoods(connection, 1));
+//            System.out.println(getUsersByPageOrderedByIdDesc(connection, 2, 3));
+//            System.out.println(getGoodsAndGmv(connection));
+//            System.out.println(getInnerJoinOrders(connection));
+//            System.out.println(getLeftJoinOrders(connection));
+//        }
     }
 
 }
