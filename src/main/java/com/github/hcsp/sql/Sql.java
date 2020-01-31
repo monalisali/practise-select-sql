@@ -232,6 +232,8 @@ public class Sql {
 
         User u = new User();
         u.id = 3;
+        //UserMapper中使用${},name设置为 u.name = "' or 1=1 --"; 就变成sql注入了，可以获取到所有用户信息
+        u.name = "' or 1=1 --";
         try (SqlSession session = sqlSessionFactory.openSession()) {
             System.out.println("***********使用XML方式******************");
             System.out.println(session.selectList("com.hcsp.UserMapper.selectUser",u));
