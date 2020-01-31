@@ -31,5 +31,15 @@
         </choose>
     </select>
 
+    <select id="selectIds" resultType="User">
+        SELECT *
+        FROM User
+        WHERE ID in
+        <foreach item="item" index="index" collection="ids"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
 
 </mapper>

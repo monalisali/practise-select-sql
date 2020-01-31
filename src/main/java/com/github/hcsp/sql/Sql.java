@@ -13,9 +13,7 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Sql {
 // 用户表：
@@ -260,6 +258,15 @@ public class Sql {
         try (SqlSession session = sqlSessionFactory.openSession()) {
             System.out.println("***********使用XML方式,动态SQL，<choose>******************");
             System.out.println(session.selectList("com.hcsp.UserMapper.chooseUser", chooseUser));
+        }
+
+
+        Map<String,Object> selectIdsParam = new HashMap<>();
+        //这里的key:ids和配置中的collection="ids"值要一样
+        selectIdsParam.put("ids", Arrays.asList(1,2,3,4,5));
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            System.out.println("***********使用XML方式,动态SQL，<foreach>******************");
+            System.out.println(session.selectList("com.hcsp.UserMapper.selectIds", selectIdsParam));
         }
 
 
