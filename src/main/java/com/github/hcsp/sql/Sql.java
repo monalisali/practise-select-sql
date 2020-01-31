@@ -225,10 +225,15 @@ public class Sql {
                 new SqlSessionFactoryBuilder().build(inputStream);
 
         try (SqlSession session = sqlSessionFactory.openSession()) {
-              UserMapper mapper = session.getMapper(UserMapper.class);
+            System.out.println("***********动态代理******************");
+            UserMapper mapper = session.getMapper(UserMapper.class);
             System.out.println(mapper.getUsers());
         }
 
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            System.out.println("***********使用XML方式******************");
+            System.out.println(session.selectList("com.hcsp.UserMapper.selectUser"));
+        }
 
 //        File projectDir = new File(System.getProperty("basedir", System.getProperty("user.dir")));
 //        String jdbcUrl = "jdbc:h2:file:" + new File(projectDir, "target/test").getAbsolutePath();
