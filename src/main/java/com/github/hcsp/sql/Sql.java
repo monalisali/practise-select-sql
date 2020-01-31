@@ -255,6 +255,13 @@ public class Sql {
         }
 
 
+        User chooseUser = new User();
+        chooseUser.name = "zhangsan";
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            System.out.println("***********使用XML方式,动态SQL，<choose>******************");
+            System.out.println(session.selectList("com.hcsp.UserMapper.chooseUser", chooseUser));
+        }
+
 
 //        File projectDir = new File(System.getProperty("basedir", System.getProperty("user.dir")));
 //        String jdbcUrl = "jdbc:h2:file:" + new File(projectDir, "target/test").getAbsolutePath();

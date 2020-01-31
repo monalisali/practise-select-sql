@@ -18,4 +18,18 @@
             WHERE name like #{name}
         </if>
     </select>
+
+    <select id="chooseUser" resultType="User">
+        SELECT * FROM User
+        <choose>
+            <when test="name == 'wangwu'">
+                WHERE name = 'wangwu'
+            </when>
+            <otherwise>
+                WHERE name = 'zhangsan'
+            </otherwise>
+        </choose>
+    </select>
+
+
 </mapper>
