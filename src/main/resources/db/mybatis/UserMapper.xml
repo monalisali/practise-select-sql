@@ -9,6 +9,6 @@
 <!--    </select>-->
     <!--返回User对象-->
     <select id="selectUser" resultType="User">
-      select * from User
+      select * from User where id=${id}
     </select>
 </mapper>

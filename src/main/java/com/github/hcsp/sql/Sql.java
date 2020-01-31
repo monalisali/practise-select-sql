@@ -230,9 +230,11 @@ public class Sql {
             System.out.println(mapper.getUsers());
         }
 
+        User u = new User();
+        u.id = 3;
         try (SqlSession session = sqlSessionFactory.openSession()) {
             System.out.println("***********使用XML方式******************");
-            System.out.println(session.selectList("com.hcsp.UserMapper.selectUser"));
+            System.out.println(session.selectList("com.hcsp.UserMapper.selectUser",u));
         }
 
 //        File projectDir = new File(System.getProperty("basedir", System.getProperty("user.dir")));
