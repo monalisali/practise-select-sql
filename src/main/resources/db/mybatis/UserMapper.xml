@@ -11,4 +11,11 @@
     <select id="selectUser" resultType="User">
       select * from User where name=#{name}
     </select>
+
+    <select id="findUserLikeName" resultType="User">
+        SELECT * FROM User
+        <if test="name != null">
+            WHERE name like #{name}
+        </if>
+    </select>
 </mapper>

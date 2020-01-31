@@ -249,6 +249,13 @@ public class Sql {
         }
 
 
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            System.out.println("***********使用XML方式,动态SQL，findUserLikeName******************");
+            System.out.println(session.selectList("com.hcsp.UserMapper.findUserLikeName", param));
+        }
+
+
+
 //        File projectDir = new File(System.getProperty("basedir", System.getProperty("user.dir")));
 //        String jdbcUrl = "jdbc:h2:file:" + new File(projectDir, "target/test").getAbsolutePath();
 //        try (Connection connection = DriverManager.getConnection(jdbcUrl, "root", "Jxi1Oxc92qSj")) {
